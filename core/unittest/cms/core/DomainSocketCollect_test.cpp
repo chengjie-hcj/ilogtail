@@ -2,7 +2,8 @@
 // Created by 韩呈杰 on 2023/7/2.
 //
 #include "common/ArgusMacros.h"
-#if HAVE_SOCKPATH
+#if HAVE_SOCKPATH && !defined(ONE_AGENT)
+
 #if !defined(ENABLE_CLOUD_MONITOR) || defined(ENABLE_FILE_CHANNEL)
 #include <gtest/gtest.h>
 #include "core/DomainSocketCollect.h"
@@ -15,7 +16,7 @@
 #include <sys/un.h>
 
 #include <apr-1/apr_network_io.h>
-#endif
+#endif // !defined(ENABLE_CLOUD_MONITOR) || defined(ENABLE_FILE_CHANNEL)
 
 #include "common/Config.h"
 #include "core/argus_manager.h"
@@ -142,4 +143,4 @@ TEST_F(DomainSocketCollectTest, collectData) {
     EXPECT_NE(content.find(send2), string::npos);
 }
 #endif // !defined(ENABLE_CLOUD_MONITOR) || defined(ENABLE_FILE_CHANNEL)
-#endif // HAVE_SOCKPATH
+#endif // HAVE_SOCKPATH && !defined(ONE_AGENT)

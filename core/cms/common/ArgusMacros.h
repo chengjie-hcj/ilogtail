@@ -17,10 +17,11 @@
 #endif
 
 // # C++17开始编译器会RVO,不需要再std::move了
-#if defined(__APPLE__) || defined(__FreeBSD__)
-#   define RETURN_RVALUE(N) return N
-#elif defined(_MSC_VER) || __cplusplus < 201703L
+#if defined(_MSC_VER)
 #   define RETURN_RVALUE(N) return std::move(N)
+#elif defined(__GNUC__) && (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__) <= 40902
+#   define RETURN_RVALUE(N) return std::move(N)
+// #elif defined(__clang__) // Apple\FreeBSD均使用Clang
 #else
 #   define RETURN_RVALUE(N) return N
 #endif
